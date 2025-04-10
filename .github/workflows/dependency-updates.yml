@@ -1,0 +1,32 @@
+# .github/workflows/dependency-updates.yml
+
+name: Automated Dependency Updates
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Runs every Sunday at midnight
+  push:
+    branches:
+      - main
+
+jobs:
+  dependency-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run npm audit to check for security vulnerabilities
+        run: npm audit --production --json > audit.json
+
+      - name: Update dependencies if necessary
+        run: |
+          npm update
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add package.json package-lock.json
+          git commit -m "chore: update dependencies" || echo "No changes"
+          git push origin main

@@ -1,0 +1,13 @@
+# .github/dependabot.yml
+
+version: 2
+updates:
+  - package-ecosystem: "npm"  # Can also be "yarn", "docker", etc.
+    directory: "/"  # Location of package.json, or root directory
+    schedule:
+      interval: "weekly"  # Can be "daily", "weekly", "monthly"
+    commit-message:
+      prefix: "fix"  # This will prefix the commit message with 'fix'
+    allow:
+      - dependency-type: "direct"  # Allows only direct dependencies to be updated
+    security-updates: true  # Enable security vulnerability scanning
