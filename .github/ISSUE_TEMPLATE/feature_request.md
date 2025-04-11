@@ -1,17 +1,19 @@
-# Feature Request
+---
+name: ➕ Feature Request
+about: Suggest a new feature or enhancement
+title: "[Feature]: "
+labels: enhancement
+assignees: sanjula77
+---
 
-## 🚀 Summary
+**Describe the feature**
+What would you like to add or change?
 
-Describe the feature you would like to see in the application.
+**Why is this needed?**
+Explain why this feature is important or helpful.
 
-## 💬 Description
+**Describe the solution you'd like**
+A clear description of how you think it should work.
 
-Provide a detailed explanation of the feature. Why is it needed? How should it function?
-
-## 🔍 Expected Behavior
-
-What should happen when the feature is implemented?
-
-## ✅ Additional Information
-
-Add any other context about the feature request.
+**Additional context**
+Add any mockups, ideas, or related links.

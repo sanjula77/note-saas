@@ -1,29 +1,29 @@
-# Bug Report
+---
+name: 🐞 Bug Report
+about: Report something that's not working
+title: "[Bug]: "
+labels: bug
+assignees: sanjula77
+---
 
-## 🐞 Description
+**Describe the bug**
+A clear and concise description of what the bug is.
 
-Provide a clear and concise description of the bug.
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. See error
 
-## 🔍 Steps to Reproduce
+**Expected behavior**
+What did you expect to happen?
 
-1. Step 1
-2. Step 2
-3. Step 3
+**Actual behavior**
+What actually happened?
 
-## ✅ Expected Behavior
+**Screenshots (if any)**
 
-Describe what you expected to happen.
-
-## 🚨 Actual Behavior
-
-Describe what actually happened.
-
-## 💻 Environment
-
-- OS: [e.g., macOS, Windows, Linux]
-- Node.js version: [e.g., v16.8.0]
-- Browser (if applicable): [e.g., Chrome, Firefox]
-
-## 📄 Logs/Errors
-
-Include any relevant logs or error messages.
+**Environment (please complete the following):**
+ - OS: [e.g. Windows 11]
+ - Browser: [e.g. Chrome]
+ - Node.js version: [e.g. 18.x]
