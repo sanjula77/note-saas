@@ -19,7 +19,7 @@ jobs:
         run: npm install
 
       - name: Run audit
-        run: npm audit --production --json > audit.json
+        run: npm audit --omit=dev --json > audit.json || true
 
       - name: Update dependencies if necessary
         run: npm update
