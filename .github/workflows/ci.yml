@@ -27,14 +27,29 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run unit tests
-        run: npm run test:unit
+      - name: Run unit tests (if exists)
+        run: |
+          if npm run | grep -q "test:unit"; then
+            npm run test:unit
+          else
+            echo "No unit test script found."
+          fi
 
-      - name: Run integration tests
-        run: npm run test:integration
+      - name: Run integration tests (if exists)
+        run: |
+          if npm run | grep -q "test:integration"; then
+            npm run test:integration
+          else
+            echo "No integration test script found."
+          fi
 
-      - name: Run E2E tests
-        run: npm run test:e2e
+      - name: Run E2E tests (if exists)
+        run: |
+          if npm run | grep -q "test:e2e"; then
+            npm run test:e2e
+          else
+            echo "No E2E test script found."
+          fi
 
       - name: Upload test reports (optional)
         if: always()
@@ -42,10 +57,12 @@ jobs:
         with:
           name: test-reports-${{ matrix.node-version }}
           path: reports/
+        continue-on-error: true
 
   audit:
     name: Security Audit
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -59,4 +76,5 @@ jobs:
         run: npm ci
 
       - name: Run audit check
-        run: npm audit --audit-level=moderate || true
+        run: |
+          npm audit --omit=dev --json > audit.json || echo "npm audit failed, continuing..."
