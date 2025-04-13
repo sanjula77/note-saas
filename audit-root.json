@@ -1,0 +1,52 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "sweetalert2": {
+      "name": "sweetalert2",
+      "severity": "low",
+      "isDirect": true,
+      "via": [
+        {
+          "source": 1094698,
+          "name": "sweetalert2",
+          "dependency": "sweetalert2",
+          "title": "sweetalert2 v11.6.14 and above contains potentially undesirable behavior",
+          "url": "https://github.com/advisories/GHSA-mrr8-v49w-3333",
+          "severity": "low",
+          "cwe": [
+            "CWE-440"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=11.6.14"
+        }
+      ],
+      "effects": [],
+      "range": ">=11.6.14",
+      "nodes": [
+        "node_modules/sweetalert2"
+      ],
+      "fixAvailable": true
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 1,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 1
+    },
+    "dependencies": {
+      "prod": 3,
+      "dev": 385,
+      "optional": 1,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 387
+    }
+  }
+}
