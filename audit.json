@@ -7,24 +7,24 @@
       "isDirect": true,
       "via": [
         {
-          "source": 1094698,
+          "source": 1092456,
           "name": "sweetalert2",
           "dependency": "sweetalert2",
-          "title": "sweetalert2 v11.6.14 and above contains potentially undesirable behavior",
-          "url": "https://github.com/advisories/GHSA-mrr8-v49w-3333",
+          "title": "sweetalert2 v11.4.9 and above contains hidden functionality",
+          "url": "https://github.com/advisories/GHSA-qq6h-5g6j-q3cm",
           "severity": "low",
           "cwe": [
-            "CWE-440"
+            "CWE-912"
           ],
           "cvss": {
             "score": 0,
             "vectorString": null
           },
-          "range": ">=11.6.14"
+          "range": ">=11.4.9 <11.6.14"
         }
       ],
       "effects": [],
-      "range": ">=11.6.14",
+      "range": "11.4.9 - 11.6.13",
       "nodes": [
         "node_modules/sweetalert2"
       ],
@@ -34,19 +34,19 @@
   "metadata": {
     "vulnerabilities": {
       "info": 0,
-      "low": 0,
+      "low": 1,
       "moderate": 0,
       "high": 0,
       "critical": 0,
-      "total": 0
+      "total": 1
     },
     "dependencies": {
       "prod": 3,
-      "dev": 386,
+      "dev": 369,
       "optional": 1,
       "peer": 1,
       "peerOptional": 0,
-      "total": 388
+      "total": 371
     }
   }
 }
