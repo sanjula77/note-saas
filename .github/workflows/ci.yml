@@ -7,13 +7,12 @@
 #     branches: [main, dev]
 
 # jobs:
-#   test:
-#     name: Matrix Test on Node.js
+#   unit-tests:
+#     name: Unit Tests on Node.js
 #     runs-on: ubuntu-latest
 #     strategy:
 #       matrix:
 #         node-version: [16.x, 18.x, 20.x]
-
 #     steps:
 #       - name: Checkout code
 #         uses: actions/checkout@v4
@@ -35,6 +34,30 @@
 #             echo "No unit test script found."
 #           fi
 
+#       - name: Upload unit test report
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: unit-test-report-${{ matrix.node-version }}
+#           path: reports/
+#         continue-on-error: true
+
+#   integration-tests:
+#     name: Integration Tests
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 18.x
+#           cache: 'npm'
+
+#       - name: Install dependencies
+#         run: npm ci
+
 #       - name: Run integration tests (if exists)
 #         run: |
 #           if npm run | grep -q "test:integration"; then
@@ -42,6 +65,30 @@
 #           else
 #             echo "No integration test script found."
 #           fi
+
+#       - name: Upload integration test report
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: integration-test-report
+#           path: reports/
+#         continue-on-error: true
+
+#   e2e-tests:
+#     name: E2E Tests
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 18.x
+#           cache: 'npm'
+
+#       - name: Install dependencies
+#         run: npm ci
 
 #       - name: Run E2E tests (if exists)
 #         run: |
@@ -51,18 +98,17 @@
 #             echo "No E2E test script found."
 #           fi
 
-#       - name: Upload test reports (optional)
+#       - name: Upload E2E test report
 #         if: always()
 #         uses: actions/upload-artifact@v4
 #         with:
-#           name: test-reports-${{ matrix.node-version }}
+#           name: e2e-test-report
 #           path: reports/
 #         continue-on-error: true
 
 #   audit:
 #     name: Security Audit
 #     runs-on: ubuntu-latest
-
 #     steps:
 #       - name: Checkout code
 #         uses: actions/checkout@v4
@@ -88,11 +134,12 @@ on:
 
 jobs:
   unit-tests:
-    name: Unit Tests on Node.js
+    name: Unit Tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16.x, 18.x, 20.x]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -101,12 +148,21 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run unit tests (if exists)
+      - name: Run unit tests
         run: |
           if npm run | grep -q "test:unit"; then
             npm run test:unit
@@ -114,13 +170,19 @@ jobs:
             echo "No unit test script found."
           fi
 
-      - name: Upload unit test report
+      - name: Upload test report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-report-${{ matrix.node-version }}
           path: reports/
-        continue-on-error: true
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-${{ matrix.node-version }}
+          path: coverage/
 
   integration-tests:
     name: Integration Tests
@@ -133,12 +195,21 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
-          cache: 'npm'
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run integration tests (if exists)
+      - name: Run integration tests
         run: |
           if npm run | grep -q "test:integration"; then
             npm run test:integration
@@ -146,13 +217,12 @@ jobs:
             echo "No integration test script found."
           fi
 
-      - name: Upload integration test report
+      - name: Upload test report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: integration-test-report
           path: reports/
-        continue-on-error: true
 
   e2e-tests:
     name: E2E Tests
@@ -165,12 +235,21 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
-          cache: 'npm'
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run E2E tests (if exists)
+      - name: Run E2E tests
         run: |
           if npm run | grep -q "test:e2e"; then
             npm run test:e2e
@@ -178,17 +257,17 @@ jobs:
             echo "No E2E test script found."
           fi
 
-      - name: Upload E2E test report
+      - name: Upload test report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: e2e-test-report
           path: reports/
-        continue-on-error: true
 
   audit:
     name: Security Audit
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -204,3 +283,10 @@ jobs:
       - name: Run audit check
         run: |
           npm audit --omit=dev --json > audit.json || echo "npm audit failed, continuing..."
+
+      - name: Upload audit result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-result
+          path: audit.json
