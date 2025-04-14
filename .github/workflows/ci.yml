@@ -204,7 +204,7 @@ jobs:
         working-directory: ${{ matrix.project-dir }}
         run: |
           if npm run | grep -q "test:unit"; then
-            npm run test:unit
+            npx jest
           else
             echo "No unit test script found."
           fi
