@@ -19,6 +19,20 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
+    "jest-junit": "^16.0.0",
     "nodemon": "^2.0.22"
+  },
+  "jest": {
+    "reporters": [
+      "default",
+      [
+        "jest-junit",
+        {
+          "outputDirectory": "./reports",
+          "outputName": "unit-test-report.xml"
+        }
+      ]
+    ],
+    "collectCoverage": true
   }
 }
