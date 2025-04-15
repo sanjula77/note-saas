@@ -2,6 +2,11 @@
 const express = require("express");
 const router = express.Router();
 
+// ✅ Root Route
+router.get("/", (req, res) => {
+  res.send("Welcome to the Note SaaS API");
+});
+
 // Import Controllers
 const noteController = require("../controllers/noteController");
 const messageController = require("../controllers/messageController");

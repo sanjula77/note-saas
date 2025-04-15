@@ -17,7 +17,7 @@ export default function Home() {
     useEffect(() => {
         const fetchNotes = () => {
             axios
-                .get("http://localhost:3000/allNotes")
+                .get("http://localhost:3001/allNotes")
                 .then((res) => {
                     if (res.data.content) {
                         setNotes(res.data.content);
