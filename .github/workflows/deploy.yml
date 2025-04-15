@@ -57,6 +57,7 @@ jobs:
 
       - name: 🛠️ Build Frontend
         run: npm run build
+        working-directory: ./frontend
         env:
           NODE_ENV: ${{ env.env }}
 
