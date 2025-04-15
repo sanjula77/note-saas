@@ -1,3 +1,5 @@
+require('./otel'); // must come first
+
 // Importing Modules
 const express = require("express");
 const mongoose = require("mongoose");
