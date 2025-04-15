@@ -1,3 +1,58 @@
+# name: 🚀 Deploy to Environment
+
+# on:
+#   push:
+#     branches:
+#       - dev
+#       - staging
+#       - main
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     # Dynamically set environment based on branch name
+#     environment: >
+#       ${{
+#         github.ref == 'refs/heads/main' && 'production' ||
+#         github.ref == 'refs/heads/staging' && 'staging' ||
+#         'development'
+#       }}
+
+#     steps:
+#       - name: ⬇️ Checkout code
+#         uses: actions/checkout@v3
+
+#       - name: 🟢 Setup Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: '18'
+
+#       - name: 📦 Install Backend Dependencies
+#         run: npm install
+#         working-directory: ./server
+
+#       - name: 📦 Install Frontend Dependencies
+#         run: npm install
+#         working-directory: ./frontend
+
+#       - name: 🛠️ Build Frontend
+#         run: npm run build
+#         working-directory: ./frontend
+
+#       - name: 🚀 Deploy to ${{ github.ref_name }} environment
+#         run: |
+#           echo "✅ Deployment started for: ${{ github.ref_name }}"
+#           echo "You can put your actual deploy steps here."
+#           # Examples:
+#           # scp -r ./dist user@yourserver:/var/www/your-app
+#           # or docker build/push
+#           # or firebase deploy
+#           echo "🌍 Environment: ${{ github.ref_name }}"
+#         env:
+#           DB_URL: ${{ secrets.DB_URL }}
+#           VITE_API_URL: ${{ secrets.VITE_API_URL }}
+#           NODE_ENV: ${{ secrets.NODE_ENV }}
 name: 🚀 Deploy to Environment
 
 on:
@@ -11,7 +66,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    # Dynamically set environment based on branch name
+    # Dynamically set the environment name based on the branch
     environment: >
       ${{
         github.ref == 'refs/heads/main' && 'production' ||
@@ -20,7 +75,7 @@ jobs:
       }}
 
     steps:
-      - name: ⬇️ Checkout code
+      - name: ⬇️ Checkout Code
         uses: actions/checkout@v3
 
       - name: 🟢 Setup Node.js
@@ -40,15 +95,22 @@ jobs:
         run: npm run build
         working-directory: ./frontend
 
+      - name: 🧪 Print Environment Info
+        run: |
+          echo "✅ Branch: ${{ github.ref_name }}"
+          echo "🌍 Environment: $NODE_ENV"
+          echo "🔗 Database URL: $DB_URL"
+          echo "🌐 API URL (Frontend): $VITE_API_URL"
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          NODE_ENV: ${{ secrets.NODE_ENV }}
+
       - name: 🚀 Deploy to ${{ github.ref_name }} environment
         run: |
-          echo "✅ Deployment started for: ${{ github.ref_name }}"
-          echo "You can put your actual deploy steps here."
-          # Examples:
-          # scp -r ./dist user@yourserver:/var/www/your-app
-          # or docker build/push
-          # or firebase deploy
-          echo "🌍 Environment: ${{ github.ref_name }}"
+          echo "🚧 Placeholder for your actual deployment script"
+          echo "➡️ For example, run SCP, SSH, Docker push, Firebase deploy, etc."
+          echo "✔️ Deployment complete for ${{ github.ref_name }}."
         env:
           DB_URL: ${{ secrets.DB_URL }}
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
