@@ -1,4 +1,4 @@
-name: Deploy App
+name: 🚀 Deploy to Environment
 
 on:
   push:
@@ -11,35 +11,45 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        environment: [dev, staging, production]
-    
+    # Dynamically set environment based on branch name
+    environment: >
+      ${{
+        github.ref == 'refs/heads/main' && 'production' ||
+        github.ref == 'refs/heads/staging' && 'staging' ||
+        'development'
+      }}
+
     steps:
-      - name: Checkout Code
+      - name: ⬇️ Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: 🟢 Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Set Environment Variables
-        run: |
-          echo "NODE_ENV=${{ matrix.environment }}" >> $GITHUB_ENV
-        if: github.ref == 'refs/heads/dev' && matrix.environment == 'dev' ||
-            github.ref == 'refs/heads/staging' && matrix.environment == 'staging' ||
-            github.ref == 'refs/heads/main' && matrix.environment == 'production'
-
-      - name: Install Dependencies
+      - name: 📦 Install Backend Dependencies
         run: npm install
         working-directory: ./server
 
-      - name: Build Project
-        run: npm run build
-        working-directory: ./server
+      - name: 📦 Install Frontend Dependencies
+        run: npm install
+        working-directory: ./frontend
 
-      - name: Deploy to ${{ matrix.environment }}
+      - name: 🛠️ Build Frontend
+        run: npm run build
+        working-directory: ./frontend
+
+      - name: 🚀 Deploy to ${{ github.ref_name }} environment
         run: |
-          echo "Deploying to ${{ matrix.environment }}"
-          # Add your deployment script or scp/rsync/ssh here
+          echo "✅ Deployment started for: ${{ github.ref_name }}"
+          echo "You can put your actual deploy steps here."
+          # Examples:
+          # scp -r ./dist user@yourserver:/var/www/your-app
+          # or docker build/push
+          # or firebase deploy
+          echo "🌍 Environment: ${{ github.ref_name }}"
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          NODE_ENV: ${{ secrets.NODE_ENV }}
