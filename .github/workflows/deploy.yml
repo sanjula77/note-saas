@@ -1,0 +1,45 @@
+name: Deploy App
+
+on:
+  push:
+    branches:
+      - dev
+      - staging
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        environment: [dev, staging, production]
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Set Environment Variables
+        run: |
+          echo "NODE_ENV=${{ matrix.environment }}" >> $GITHUB_ENV
+        if: github.ref == 'refs/heads/dev' && matrix.environment == 'dev' ||
+            github.ref == 'refs/heads/staging' && matrix.environment == 'staging' ||
+            github.ref == 'refs/heads/main' && matrix.environment == 'production'
+
+      - name: Install Dependencies
+        run: npm install
+        working-directory: ./server
+
+      - name: Build Project
+        run: npm run build
+        working-directory: ./server
+
+      - name: Deploy to ${{ matrix.environment }}
+        run: |
+          echo "Deploying to ${{ matrix.environment }}"
+          # Add your deployment script or scp/rsync/ssh here
