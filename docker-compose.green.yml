@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8' # Use a supported version like '3.8'
 services:
   green-app:
     container_name: green-app-service
@@ -26,11 +26,3 @@ networks:
   default:
     external:
       name: saas-network
-
-steps:
-  - name: Create External Network if Not Exists
-    run: |
-      docker network inspect saas-network >/dev/null 2>&1 || docker network create saas-network
-
-  - name: 🐳 Run Docker Compose
-    run: docker-compose -f docker-compose.green.yml up -d --build
