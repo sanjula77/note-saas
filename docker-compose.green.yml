@@ -1,6 +1,7 @@
 version: '3'
 services:
   green-app:
+    container_name: green-app-service
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -15,7 +16,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        VITE_API_URL: http://localhost:3002
+        VITE_API_URL: http://green-app-service:3000
     ports:
       - "8082:80"
     networks:
