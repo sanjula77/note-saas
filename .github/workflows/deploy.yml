@@ -102,6 +102,14 @@ jobs:
       - name: 🐳 Run Docker Compose
         run: docker-compose -f docker-compose.green.yml up -d --build
 
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GH_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push Docker image to GHCR
+        run: |
+          docker tag note-saas-green-app ghcr.io/sanjula77/note-saas-green-app:latest
+          docker push ghcr.io/sanjula77/note-saas-green-app:latest
+
       - name: Wait for App to be Ready
         run: sleep 15
 
