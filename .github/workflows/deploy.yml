@@ -124,6 +124,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y docker-compose
+      
+      - name: Create External Network if Not Exists
+        run: |
+          docker network inspect saas-network >/dev/null 2>&1 || docker network create saas-network
 
       - name: Switch Proxy to Green
         run: |
