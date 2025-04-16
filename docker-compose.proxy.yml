@@ -1,4 +1,43 @@
+# version: '3'
+# services:
+#   nginx-proxy:
+#     container_name: nginx-proxy
+#     build:
+#       context: ./nginx
+#       dockerfile: Dockerfile
+#     ports:
+#       - "80:80"
+#     depends_on:
+#       - green-frontend
+#       - green-app-service
+#     networks:
+#       - default
+
+#   green-frontend:
+#     build:
+#       context: ./frontend
+#       dockerfile: Dockerfile
+#     ports:
+#       - "8083:80" # Change the host port to 8083 to avoid conflict
+#     networks:
+#       - default
+
+#   green-app-service:
+#     container_name: green-app-service
+#     build:
+#       context: ./server
+#       dockerfile: Dockerfile
+#     ports:
+#       - "3003:3000"
+#     networks:
+#       - default
+
+# networks:
+#   default:
+#     external:
+#       name: saas-network 
 version: '3'
+
 services:
   nginx-proxy:
     container_name: nginx-proxy
@@ -11,16 +50,19 @@ services:
       - green-frontend
       - green-app-service
     networks:
-      - default
+      - saas-network
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro  # ✅ Ensure you're mounting the correct config file
 
   green-frontend:
+    container_name: green-frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "8083:80" # Change the host port to 8083 to avoid conflict
+      - "8083:80"
     networks:
-      - default
+      - saas-network
 
   green-app-service:
     container_name: green-app-service
@@ -28,10 +70,10 @@ services:
       context: ./server
       dockerfile: Dockerfile
     ports:
-      - "3001:3000" # Change the host port to 3001 to avoid conflict
+      - "3003:3000"
     networks:
-      - default
+      - saas-network
 
 networks:
-  default:
-    driver: bridge
+  saas-network:
+    external: true

@@ -16,3 +16,8 @@ services:
       context: ./frontend
     ports:
       - "8081:80"
+
+networks:
+  default:
+    external:
+      name: saas-network
