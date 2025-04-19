@@ -36,6 +36,7 @@ jobs:
         with:
           node-version: '18'
 
+      # Cache Node modules to improve workflow speed
       - name: 📦 Cache Node.js dependencies
         uses: actions/cache@v3
         with:
@@ -74,7 +75,6 @@ jobs:
       - name: 🚀 Deploy to ${{ env.env }} environment
         run: |
           echo "Deploying to ${{ env.env }} environment..."
-          # Add your base deployment logic here (optional)
         env:
           DB_URL: ${{ secrets.DB_URL }}
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
@@ -142,3 +142,4 @@ jobs:
           sed -i 's/blue-frontend/green-frontend/g' docker-compose.proxy.yml
           sed -i 's/blue-app/green-app/g' docker-compose.proxy.yml
           docker-compose -f docker-compose.proxy.yml up -d --build
+
