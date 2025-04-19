@@ -95,6 +95,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y docker-compose
 
+      - name: Build Docker Image
+        run: |
+          docker build -t note-saas-green-app ./server
+
+      - name: Verify Docker Image
+        run: docker images
+
       - name: Create External Network if Not Exists
         run: |
           docker network inspect saas-network >/dev/null 2>&1 || docker network create saas-network
@@ -116,6 +123,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: 🐳 Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: 🐳 Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+      
+      - name: Create External Network if Not Exists
+        run: |
+          docker network inspect saas-network >/dev/null 2>&1 || docker network create saas-network
 
       - name: Switch Proxy to Green
         run: |
