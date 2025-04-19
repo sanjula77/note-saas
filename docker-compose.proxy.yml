@@ -55,7 +55,7 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro  # ✅ Ensure you're mounting the correct config file
 
   green-frontend:
-    container_name: green-frontend
+    container_name: green-frontendd
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -65,7 +65,7 @@ services:
       - saas-network
 
   green-app-service:
-    container_name: green-app-service
+    container_name: green-app-servicee
     build:
       context: ./server
       dockerfile: Dockerfile
