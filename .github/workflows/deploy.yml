@@ -55,13 +55,13 @@ jobs:
         run: npm install
         working-directory: ./frontend
 
-      - name: 🛠️ Build Frontend
+      - name: 💠 Build Frontend
         run: npm run build
         working-directory: ./frontend
         env:
           NODE_ENV: ${{ env.env }}
 
-      - name: 🧪 Print Environment Info
+      - name: 🥪 Print Environment Info
         run: |
           echo "✅ Branch: ${{ github.ref_name }}"
           echo "🌍 Environment: $NODE_ENV"
@@ -75,8 +75,71 @@ jobs:
       - name: 🚀 Deploy to ${{ env.env }} environment
         run: |
           echo "Deploying to ${{ env.env }} environment..."
-          # Add your deployment commands here
         env:
           DB_URL: ${{ secrets.DB_URL }}
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
           NODE_ENV: ${{ secrets.NODE_ENV }}
+
+  deploy-green:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🐳 Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: 🐳 Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      - name: Build Docker Image
+        run: |
+          docker build -t note-saas-green-app ./server
+
+      - name: Verify Docker Image
+        run: docker images
+
+      - name: Create External Network if Not Exists
+        run: |
+          docker network inspect saas-network >/dev/null 2>&1 || docker network create saas-network
+
+      - name: 🐳 Run Docker Compose
+        run: docker-compose -f docker-compose.green.yml up -d --build
+
+      - name: Wait for App to be Ready
+        run: sleep 15
+
+      - name: Run Integration/E2E Tests on Green
+        run: |
+          echo "Run integration/E2E tests"
+          curl -f http://localhost:8082 || exit 1
+
+  switch-traffic:
+    runs-on: ubuntu-latest
+    needs: deploy-green
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🐳 Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: 🐳 Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+      
+      - name: Create External Network if Not Exists
+        run: |
+          docker network inspect saas-network >/dev/null 2>&1 || docker network create saas-network
+
+      - name: Switch Proxy to Green
+        run: |
+          echo "Switching proxy to green environment"
+          sed -i 's/blue-frontend/green-frontend/g' docker-compose.proxy.yml
+          sed -i 's/blue-app/green-app/g' docker-compose.proxy.yml
+          docker-compose -f docker-compose.proxy.yml up -d --build
+

@@ -1,0 +1,23 @@
+version: '3'
+services:
+  app:
+    container_name: blue-app
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+
+  frontend:
+    container_name: blue-frontend
+    build:
+      context: ./frontend
+    ports:
+      - "8081:80"
+
+networks:
+  default:
+    external:
+      name: saas-network

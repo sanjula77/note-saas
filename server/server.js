@@ -19,7 +19,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then((result) =>
-    app.listen(process.env.PORT || 3000, () => {
+    app.listen(process.env.PORT || 3000, '0.0.0.0', () => {
       console.log("Connection to the Database was established!");
     })
   )
