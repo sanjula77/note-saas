@@ -102,14 +102,6 @@ jobs:
       - name: Verify Docker Image
         run: docker images
 
-      - name: Log in to GitHub Container Registry
-        run: echo "${{ secrets.GH_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
-      - name: Push Docker image to GHCR
-        run: |
-          docker tag note-saas-green-app ghcr.io/sanjula77/note-saas-green-app:latest
-          docker push ghcr.io/sanjula77/note-saas-green-app:latest
-
       - name: Create External Network if Not Exists
         run: |
           docker network inspect saas-network >/dev/null 2>&1 || docker network create saas-network
