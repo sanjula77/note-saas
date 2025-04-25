@@ -1,42 +1,36 @@
 require('./otel'); // must come first
 
-// Importing Modules
+// Imports
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config();
+const swaggerDocs = require('./swagger'); // 🆕 Add this
 
-// Inititating Express
+// Init
 const app = express();
 
-// Environment Variables
-require("dotenv").config();
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors({ origin: "*" }));
 
-console.log(process.env.dbURL)
-// Connecting to Database
+// Routes
+const routes = require("./routes/routes");
+app.use(routes);
+
+// Swagger Docs
+swaggerDocs(app); // 🆕 Mount Swagger at /api-docs
+
+// Connect to DB
 mongoose
   .connect(process.env.dbURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then((result) =>
+  .then(() =>
     app.listen(process.env.PORT || 3000, '0.0.0.0', () => {
-      console.log("Connection to the Database was established!");
+      console.log("Connected to MongoDB");
     })
   )
   .catch((error) => console.log(error));
-
-// Middlewares
-app.use(express.json()); // JSON Parser
-app.use(express.urlencoded({ extended: true })); // URL Body Parser
-
-// CORS
-app.use(
-  cors({
-    origin: "*",
-    // credentials: true,
-  })
-);
-
-// Routes
-const routes = require("./routes/routes");
-app.use(routes);

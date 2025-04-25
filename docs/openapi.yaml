@@ -1,0 +1,145 @@
+openapi: 3.0.0
+info:
+  title: Note SaaS API
+  description: API documentation for the Note SaaS application.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+paths:
+  /:
+    get:
+      summary: Welcome message
+      responses:
+        200:
+          description: Welcome message
+          content:
+            text/plain:
+              schema:
+                type: string
+  /submitFeedback:
+    post:
+      summary: Submit feedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: John Doe
+                email:
+                  type: string
+                  example: john.doe@example.com
+                message:
+                  type: string
+                  example: This app is amazing!
+      responses:
+        200:
+          description: Feedback submitted successfully
+  /api/notes:
+    get:
+      summary: Retrieve all notes
+      responses:
+        200:
+          description: A list of notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 12345
+                    title:
+                      type: string
+                      example: My Note
+                    content:
+                      type: string
+                      example: This is the content of the note.
+    post:
+      summary: Add a new note
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: My Note
+                content:
+                  type: string
+                  example: This is the content of the note.
+      responses:
+        201:
+          description: Note created successfully
+  /api/notes/{id}:
+    get:
+      summary: Retrieve a single note by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the note to retrieve
+      responses:
+        200:
+          description: A single note
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 12345
+                  title:
+                    type: string
+                    example: My Note
+                  content:
+                    type: string
+                    example: This is the content of the note.
+    patch:
+      summary: Update a note by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the note to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Updated Note Title
+                content:
+                  type: string
+                  example: Updated content of the note.
+      responses:
+        200:
+          description: Note updated successfully
+    delete:
+      summary: Delete a note by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the note to delete
+      responses:
+        200:
+          description: Note deleted successfully
