@@ -3,11 +3,11 @@ FROM node:18 AS builder
 
 WORKDIR /app
 
-# Copy dependency files and install
-COPY package*.json ./
+# Copy dependency files and install dependencies
+COPY package.json package-lock.json ./
 RUN npm ci --legacy-peer-deps
 
-# Copy the rest of your frontend code
+# Copy the rest of the application code
 COPY . .
 
 # Build the Vite project
@@ -19,13 +19,10 @@ FROM nginx:alpine
 # Remove default nginx index
 RUN rm -rf /usr/share/nginx/html/*
 
-# Copy built assets from builder
+# Copy built assets from the builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Optional: custom nginx config (only if needed)
-# COPY nginx.conf /etc/nginx/nginx.conf
-
-# Expose the default nginx port
+# Expose port 80
 EXPOSE 80
 
 # Start nginx

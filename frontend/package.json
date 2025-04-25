@@ -4,11 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "test": "react-scripts test --watchAll=false"
+    "build": "rollup -c"
   },
   "dependencies": {
     "@opentelemetry/api": "^1.9.0",
