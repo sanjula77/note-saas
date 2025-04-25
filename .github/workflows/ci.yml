@@ -55,7 +55,7 @@ jobs:
           key: ${{ runner.os }}-integration-server-${{ hashFiles('server/package-lock.json') }}
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Run integration tests
         run: |
@@ -96,7 +96,7 @@ jobs:
           key: ${{ runner.os }}-e2e-frontend-${{ hashFiles('frontend/package-lock.json') }}
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Run E2E tests
         run: |
@@ -131,7 +131,7 @@ jobs:
           node-version: 18.x
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Run audit check
         run: |
