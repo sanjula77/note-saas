@@ -26,7 +26,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: ${{ matrix.project-dir }}
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Run Unit Tests
         working-directory: ${{ matrix.project-dir }}
