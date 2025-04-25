@@ -55,19 +55,6 @@ jobs:
         run: npm install
         working-directory: ./frontend
 
-      - name: Install dependencies
-        run: |
-          rm -rf node_modules package-lock.json
-          npm install
-
-      - name: Build Backend
-        run: npm run build
-        working-directory: ./server
-
-      - name: Build Frontend
-        run: npm run build
-        working-directory: ./frontend
-
       - name: 💠 Build Frontend
         run: npm run build
         working-directory: ./frontend
@@ -110,7 +97,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build --build-arg NODE_ENV=production -t frontend-image ./frontend --build-arg NPM_FLAGS="--legacy-peer-deps"
+          docker build -t note-saas-green-app ./server
 
       - name: Verify Docker Image
         run: docker images
