@@ -68,9 +68,9 @@ docker exec -i note-db psql -U postgres noteapp < backup.sql
 
 | Type of Incident      | Contact         | Responsibility       |
 |-----------------------|-----------------|-----------------------|
-| App Down              | @you            | Restart app containers |
-| DB Connection Failed  | @you            | Check DB logs, restore |
-| Security Breach       | @you + mentor   | Revoke keys, notify team |
+| App Down              | @sanjula77            | Restart app containers |
+| DB Connection Failed  | @sanjula77           | Check DB logs, restore |
+| Security Breach       | @sanjula77   | Revoke keys, notify team |
 
 ---
 
