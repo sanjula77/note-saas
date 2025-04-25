@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "rollup -c"
+    "build": "vite build"
   },
   "dependencies": {
     "@opentelemetry/api": "^1.9.0",
