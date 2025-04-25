@@ -60,8 +60,13 @@ jobs:
           rm -rf node_modules package-lock.json
           npm install
 
-      - name: Build the Application
+      - name: Build Backend
         run: npm run build
+        working-directory: ./server
+
+      - name: Build Frontend
+        run: npm run build
+        working-directory: ./frontend
 
       - name: 💠 Build Frontend
         run: npm run build
