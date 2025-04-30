@@ -142,4 +142,3 @@ jobs:
           sed -i 's/blue-frontend/green-frontend/g' docker-compose.proxy.yml
           sed -i 's/blue-app/green-app/g' docker-compose.proxy.yml
           docker-compose -f docker-compose.proxy.yml up -d --build
-

@@ -11,12 +11,11 @@ services:
       - default
 
   frontend:
-    container_name: green-frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        VITE_API_URL: http://green-app-service:3000
+        VITE_API_URL: http://green-app:3000
     ports:
       - "8082:80"
     networks:
