@@ -1,16 +1,59 @@
 {
   "auditReportVersion": 2,
   "vulnerabilities": {
+    "gaxios": {
+      "name": "gaxios",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "uuid"
+      ],
+      "effects": [],
+      "range": "6.4.0 - 6.7.1",
+      "nodes": [
+        "node_modules/gaxios"
+      ],
+      "fixAvailable": true
+    },
+    "protobufjs": {
+      "name": "protobufjs",
+      "severity": "critical",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1117042,
+          "name": "protobufjs",
+          "dependency": "protobufjs",
+          "title": "Arbitrary code execution in protobufjs",
+          "url": "https://github.com/advisories/GHSA-xq3m-2v4x-88gg",
+          "severity": "critical",
+          "cwe": [
+            "CWE-94"
+          ],
+          "cvss": {
+            "score": 9.8,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+          },
+          "range": "<7.5.5"
+        }
+      ],
+      "effects": [],
+      "range": "<7.5.5",
+      "nodes": [
+        "node_modules/protobufjs"
+      ],
+      "fixAvailable": true
+    },
     "sweetalert2": {
       "name": "sweetalert2",
       "severity": "low",
       "isDirect": true,
       "via": [
         {
-          "source": 1094698,
+          "source": 1106928,
           "name": "sweetalert2",
           "dependency": "sweetalert2",
-          "title": "sweetalert2 v11.6.14 and above contains potentially undesirable behavior",
+          "title": "sweetalert2 contains potentially undesirable behavior",
           "url": "https://github.com/advisories/GHSA-mrr8-v49w-3333",
           "severity": "low",
           "cwe": [
@@ -20,13 +63,45 @@
             "score": 0,
             "vectorString": null
           },
-          "range": ">=11.6.14"
+          "range": ">=11.6.14 <11.22.4"
         }
       ],
       "effects": [],
-      "range": ">=11.6.14",
+      "range": "11.6.14 - 11.22.3",
       "nodes": [
         "node_modules/sweetalert2"
+      ],
+      "fixAvailable": true
+    },
+    "uuid": {
+      "name": "uuid",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1116970,
+          "name": "uuid",
+          "dependency": "uuid",
+          "title": "uuid: Missing buffer bounds check in v3/v5/v6 when buf is provided",
+          "url": "https://github.com/advisories/GHSA-w5hq-g745-h8pq",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-787",
+            "CWE-1285"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<14.0.0"
+        }
+      ],
+      "effects": [
+        "gaxios"
+      ],
+      "range": "<14.0.0",
+      "nodes": [
+        "node_modules/uuid"
       ],
       "fixAvailable": true
     }
@@ -35,18 +110,18 @@
     "vulnerabilities": {
       "info": 0,
       "low": 1,
-      "moderate": 0,
+      "moderate": 2,
       "high": 0,
-      "critical": 0,
-      "total": 1
+      "critical": 1,
+      "total": 4
     },
     "dependencies": {
       "prod": 162,
-      "dev": 413,
-      "optional": 46,
+      "dev": 364,
+      "optional": 2,
       "peer": 0,
       "peerOptional": 0,
-      "total": 574
+      "total": 525
     }
   }
 }
